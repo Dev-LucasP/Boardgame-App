@@ -1,66 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Membres du Projet
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- **MIONE Alexandre** - Chef de projet  
+- **PIERREUSE Nathan** - Développeur  
+- **PEREZ Lucas** - Développeur  
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Fonctionnement de l’API
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Cette API permet de gérer des jeux de société (board-games). Elle utilise **Laravel** pour définir des routes et des contrôleurs afin de manipuler les données des jeux de société.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Fonctionnalités de l'API
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Authentification** : Utilise `auth:sanctum` pour sécuriser certaines routes.  
+- **Ressource board-games** : Utilise un contrôleur (**BoardGameController**) pour gérer les opérations **CRUD** (Create, Read, Update, Delete) sur les jeux de société.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Routes Disponibles
 
-## Laravel Sponsors
+### Authentification
+- **GET** `/api/user` : Récupère les informations de l'utilisateur authentifié.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Ressource Board-Games
+- **GET** `/api/board-games` : Récupère la liste des jeux de société.  
+- **POST** `/api/board-games` : Crée un nouveau jeu de société.  
+- **GET** `/api/board-games/{id}` : Récupère les détails d'un jeu de société spécifique.  
+- **PUT** `/api/board-games/{id}` : Met à jour un jeu de société spécifique.  
+- **DELETE** `/api/board-games/{id}` : Supprime un jeu de société spécifique.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Utilisation de l'API
 
-## Contributing
+### Authentification
+Pour accéder à certaines routes, vous devez être authentifié via **Sanctum**. Assurez-vous d'avoir un jeton d'authentification valide.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Opérations CRUD sur Board-Games
 
-## Code of Conduct
+#### Récupérer la liste des jeux de société
+```bash
+curl -X GET "http://notre_domaine/api/board-games" -H "Authorization: Bearer notre_jeton"
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Créer un nouveau jeu de société
 
-## Security Vulnerabilities
+curl -X POST "http://notre-domaine/api/board-games" \
+-H "Authorization: Bearer notre_jeton" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Nom du jeu",
+  "description": "Description du jeu",
+  "price": 29.99,
+  "image": "url_de_l_image",
+  "category": "Catégorie",
+  "video": "url_de_la_video",
+  "number_gamer": 4,
+  "playing_time": 60,
+  "complexity": 3,
+  "rating": 4.5,
+  "number_rating": 100,
+  "published_date": "2023-01-01",
+  "rank": 1
+}'
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Mettre à jour un jeu de société
 
-## License
+curl -X PUT "http://notre-domaine/api/board-games/{id}" \
+-H "Authorization: Bearer notre_jeton" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Nom du jeu mis à jour",
+  "description": "Description mise à jour",
+  "price": 34.99
+}'
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Supprimer un jeu de société
+
+curl -X DELETE "http://notre-domaine/api/board-games/{id}" \
+-H "Authorization: Bearer notre_jeton"
