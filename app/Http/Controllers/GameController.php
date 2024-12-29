@@ -5,8 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 
+/**
+ * GameController handles the CRUD operations for board games.
+ */
 class GameController extends Controller
 {
+    /**
+     * Display a listing of the board games.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function index()
     {
         $response = Http::get('http://127.0.0.1:8000/api/board-games');
@@ -20,6 +28,12 @@ class GameController extends Controller
         return back()->withErrors('Erreur lors de la récupération des jeux.');
     }
 
+    /**
+     * Store a newly created board game in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -38,21 +52,32 @@ class GameController extends Controller
             'rank' => 'nullable|integer',
         ]);
 
-    $response = Http::post('http://127.0.0.1:8000/api/board-games', $validatedData);
+        $response = Http::post('http://127.0.0.1:8000/api/board-games', $validatedData);
 
-    if ($response->successful()) {
-        return redirect()->route('games.index')->with('success', 'Jeu créé avec succès.');
+        if ($response->successful()) {
+            return redirect()->route('games.index')->with('success', 'Jeu créé avec succès.');
+        }
+
+        return back()->withErrors('Erreur lors de la création du jeu.');
     }
 
-    return back()->withErrors('Erreur lors de la création du jeu.');
-}
-
+    /**
+     * Show the form for creating a new board game.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         $titre = 'Créer un nouveau jeu';
         return view('games.create', compact('titre'));
     }
 
+    /**
+     * Remove the specified board game from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy($id)
     {
         $response = Http::delete("http://127.0.0.1:8000/api/board-games/{$id}");
@@ -64,19 +89,32 @@ class GameController extends Controller
         }
     }
 
-public function edit($id)
-{
-    $response = Http::get("http://127.0.0.1:8000/api/board-games/{$id}");
+    /**
+     * Show the form for editing the specified board game.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function edit($id)
+    {
+        $response = Http::get("http://127.0.0.1:8000/api/board-games/{$id}");
 
-    if ($response->successful()) {
-        $boardGame = $response->json();
-        $titre = 'Modifier le jeu';
-        return view('games.edit', compact('boardGame', 'titre'));
-    } else {
-        return redirect()->back()->withErrors('Failed to fetch board game data.');
+        if ($response->successful()) {
+            $boardGame = $response->json();
+            $titre = 'Modifier le jeu';
+            return view('games.edit', compact('boardGame', 'titre'));
+        } else {
+            return redirect()->back()->withErrors('Failed to fetch board game data.');
+        }
     }
-}
 
+    /**
+     * Update the specified board game in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -104,6 +142,12 @@ public function edit($id)
         }
     }
 
+    /**
+     * Display the specified board game.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function show($id)
     {
         $response = Http::get("http://127.0.0.1:8000/api/board-games/{$id}");
