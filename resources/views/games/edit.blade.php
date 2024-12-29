@@ -56,7 +56,7 @@
             max-width: 400px;
         }
 
-        .create button {
+        .maj button {
             margin-top: 1.5rem;
             padding: 0.5rem 1rem;
             background-color: var(--button-bg);
@@ -68,53 +68,47 @@
             margin-bottom: 5rem;
         }
 
-        .create button:hover {
+            .maj button:hover {
             background-color: var(--button-hover-bg);
         }
     </style>
-    <body>
     <div class="page-content">
-        <h1>Ajouter un nouveau jeu</h1>
-        <form action="{{ route('games.store') }}" method="POST">
+        <h1>Modifier le jeu</h1>
+        <form action="{{ route('games.update', $boardGame['id']) }}" method="POST">
             @csrf
+            @method('PUT')
             <label for="name">Nom du jeu :</label>
-            <input type="text" id="name" name="name" required><br>
+            <input type="text" id="name" name="name" value="{{ $boardGame['name'] }}" required><br>
 
             <label for="description">Description :</label>
-            <textarea id="description" name="description"></textarea><br>
+            <textarea id="description" name="description">{{ $boardGame['description'] }}</textarea><br>
 
             <label for="price">Prix :</label>
-            <input type="number" id="price" name="price" step="0.01"><br>
+            <input type="number" id="price" name="price" step="0.01" value="{{ $boardGame['price'] }}"><br>
 
             <label for="image">Image :</label>
-            <input type="file" id="image" name="image" accept="image/*"><br>
+            <input type="text" id="image" name="image" value="{{ $boardGame['image'] }}"><br>
 
             <label for="category">Catégorie :</label>
-            <select id="category" name="category" required>
-                <option value="stratégie">Stratégie</option>
-                <option value="coopératif">Coopératif</option>
-                <option value="mots">Mots</option>
-                <option value="familiale">Familiale</option>
-            </select><br>
+            <input type="text" id="category" name="category" value="{{ $boardGame['category'] }}"><br>
 
             <label for="video">Vidéo :</label>
-            <input type="file" id="video" name="video" accept="video/*"><br>
+            <input type="text" id="video" name="video" value="{{ $boardGame['video'] }}"><br>
 
             <label for="number_gamer">Nombre de joueurs :</label>
-            <input type="number" id="number_gamer" name="number_gamer" required><br>
+            <input type="number" id="number_gamer" name="number_gamer" value="{{ $boardGame['number_gamer'] }}" required><br>
 
             <label for="playing_time">Durée (en minutes) :</label>
-            <input type="number" id="playing_time" name="playing_time" required><br>
+            <input type="number" id="playing_time" name="playing_time" value="{{ $boardGame['playing_time'] }}" required><br>
 
             <label for="complexity">Complexité :</label>
-            <input type="number" id="complexity" name="complexity"><br>
+            <input type="number" id="complexity" name="complexity" value="{{ $boardGame['complexity'] }}"><br>
 
             <label for="published_date">Date de publication :</label>
-            <input type="date" id="published_date" name="published_date"><br>
-            <div class="create">
-                <button type="submit">Ajouter</button>
+            <input type="date" id="published_date" name="published_date" value="{{ $boardGame['published_date'] }}"><br>
+            <div class="maj">
+                <button type="submit">Mettre à jour</button>
             </div>
         </form>
     </div>
-    </body>
 </x-app>
