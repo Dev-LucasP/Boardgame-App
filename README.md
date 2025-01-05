@@ -1,4 +1,4 @@
-_# 🧑‍🤝‍🧑 Membres du Projet
+# 🧑‍🤝‍🧑 Membres du Projet
 
 - **MIONE Alexandre** - Chef de projet 👨‍💼
 - **PIERREUSE Nathan** - Développeur 👨‍💻
